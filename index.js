@@ -23,6 +23,21 @@ app.get("/events",async (req,res) => {
     }
 })
 
+app.put("/eventss",async (req,res) => {
+    try {
+        let client = await mongodb.connect(url,{ useUnifiedTopology: true });
+        let db = client.db("booh_show")
+        let data = await db.collection("booked_show_details").find().toArray();
+        client.close();
+        res.json(data);
+        console.log(data);
+    }catch(error) {
+        res.status(500).json({
+           message: "Something went wrong!",
+        })
+    }
+})
+
 app.post("/event", async (req,res) => {
     try{
         let client = await mongodb.connect(url,{ useUnifiedTopology: true });
